@@ -9,7 +9,6 @@ export default function Search() {
 
   const router = useRouter();
 
-  // 自动识别语言
   useEffect(() => {
     const l = navigator.language.toLowerCase();
     if (l.includes("de")) setLang("de");
@@ -52,7 +51,6 @@ export default function Search() {
 
   const t = text[lang];
 
-  // ✅ 升级后的核心逻辑：通过后台/API校验单号
   const handleSearch = async () => {
     const cleanTracking = tracking.trim();
 
@@ -84,264 +82,717 @@ export default function Search() {
   };
 
   return (
-    <div style={{ fontFamily: "Montserrat, Arial", background: "#f5f5f5" }}>
+    <>
+      <div className="page">
 
-      {/* 顶部黄条 */}
-      <div style={{ height: 5, background: "#ffcc00" }} />
+        <div className="top-yellow" />
 
-      {/* Header */}
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        padding: "10px 40px",
-        background: "white"
-      }}>
-        <img src="/logo.png" style={{ height: 42 }} />
-
-        <div style={{ display: "flex", gap: 20 }}>
-          <div>Accès rapides</div>
-          <div>Particulier ▼</div>
-          <div>❓</div>
-          <div>👤</div>
-          <div>🛒</div>
-        </div>
-      </div>
-
-      {/* 菜单 */}
-      <div style={{
-        display: "flex",
-        gap: 30,
-        padding: "12px 40px",
-        background: "white"
-      }}>
-        {["Le courrier", "Le colis", "Le transfert de courrier", "Les services", "Tous nos produits"].map(i => (
-          <div key={i}>{i} ▼</div>
-        ))}
-      </div>
-
-      {/* 绿色广告 */}
-      <div style={{ width: "100%", background: "#0f8f3a" }}>
-        <div style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          height: 70,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between"
-        }}>
-
-          <div style={{
-            marginLeft: 40,
-            display: "flex",
-            flexDirection: "column"
-          }}>
-            <span style={{ fontSize: 16, fontWeight: 800, color: "white" }}>
-              LES JOURS
-            </span>
-
-            <span style={{
-              background: "white",
-              color: "#0f8f3a",
-              padding: "3px 8px",
-              fontWeight: 800,
-              marginTop: 4
-            }}>
-              DÉMÉNAGEMENT
-            </span>
+        {/* Header */}
+        <header className="header">
+          <div className="logo-wrap">
+            <img src="/logo.png" className="logo" />
           </div>
 
-          <div style={{
-            fontSize: 20,
-            fontWeight: 800,
-            color: "white"
-          }}>
-            DÉCOUVREZ TOUTES NOS OFFRES QUI DÉMÉNAGENT
+          <div className="header-actions">
+            <div>Accès rapides</div>
+            <div>Particulier ▼</div>
+            <div>?</div>
+            <div>👤</div>
+            <div>🛒</div>
+          </div>
+        </header>
+
+        {/* 菜单 */}
+        <nav className="menu">
+          {["Le courrier", "Le colis", "Le transfert de courrier", "Les services", "Tous nos produits"].map(i => (
+            <div key={i} className="menu-item">
+              {i} ▼
+            </div>
+          ))}
+        </nav>
+
+        {/* 绿色广告 */}
+        <section className="green-ad">
+          <div className="green-inner">
+            <div className="ad-left">
+              <span className="ad-small">LES JOURS</span>
+              <span className="ad-box">DÉMÉNAGEMENT</span>
+            </div>
+
+            <div className="ad-center">
+              DÉCOUVREZ TOUTES NOS OFFRES QUI DÉMÉNAGENT
+            </div>
+
+            <div className="ad-button">
+              J&apos;en profite →
+            </div>
+          </div>
+        </section>
+
+        {/* 主体 */}
+        <main className="main">
+
+          {/* 标题 */}
+          <div className="title">
+            <img src="/track-icon.png" className="title-icon" />
+            <span>{t.title}</span>
           </div>
 
-          <div style={{
-            marginRight: 40,
-            background: "white",
-            color: "#0f8f3a",
-            padding: "8px 18px",
-            borderRadius: 22,
-            fontWeight: 600
-          }}>
-            J'en profite →
-          </div>
+          {/* 查询卡 */}
+          <section className="search-card">
 
-        </div>
-      </div>
+            <div className="desc">
+              {t.desc}
+            </div>
 
-      {/* 主体 */}
-      <div style={{
-        maxWidth: 900,
-        margin: "70px auto 0"
-      }}>
+            <div className={error ? "search-box error-border" : "search-box"}>
+              <input
+                value={tracking}
+                onChange={(e) => {
+                  setTracking(e.target.value);
+                  setError("");
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                className="input"
+              />
 
-        {/* 标题 */}
-        <div style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: 12,
-          fontSize: 34,
-          fontWeight: 600,
-          color: "#333"
-        }}>
-          <img src="/track-icon.png" style={{ width: 34 }} />
-          {t.title}
-        </div>
+              <button
+                onClick={handleSearch}
+                disabled={loading}
+                className="search-button"
+              >
+                <span>{t.button}</span>
+                <img src="/search.png" className="search-icon" />
+              </button>
+            </div>
 
-        {/* 查询卡 */}
-        <div style={{
-          background: "white",
-          marginTop: 30,
-          padding: 30,
-          borderRadius: 12,
-          borderTop: "4px solid #ffcc00"
-        }}>
+            {loading && (
+              <div className="loading">
+                {t.loading}
+              </div>
+            )}
 
-          <div style={{ textAlign: "center", marginBottom: 20 }}>
-            {t.desc}
-          </div>
+            {error && (
+              <div className="error-text">
+                {error}
+              </div>
+            )}
 
-          <div style={{
-            display: "flex",
-            border: error ? "2px solid #d93025" : "2px solid #d0d5dd",
-            borderRadius: 12,
-            overflow: "hidden"
-          }}>
-            <input
-              value={tracking}
-              onChange={(e) => {
-                setTracking(e.target.value);
-                setError("");
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  handleSearch();
-                }
-              }}
-              style={{
-                flex: 1,
-                padding: 15,
-                border: "none",
-                outline: "none"
-              }}
-            />
+            {/* 类型区域 */}
+            <div className="type-area">
+              <div className="type-title">
+                Several types of tracking are taken into account
+              </div>
 
-            <button
-              onClick={handleSearch}
-              disabled={loading}
-              style={{
-                background: "#0b3d91",
-                color: "white",
-                padding: "0 26px",
-                display: "flex",
-                alignItems: "center",
-                gap: 10,
-                border: "none",
-                cursor: loading ? "not-allowed" : "pointer",
-                opacity: loading ? 0.75 : 1
-              }}
+              <div className="type-list">
+                <div className="type-item">
+                  <img src="/colissimo.png" />
+                  <span>colissimo</span>
+                </div>
+
+                <div className="type-item">
+                  <img src="/chronopost.png" />
+                  <span>chronopost</span>
+                </div>
+
+                <div className="type-item">
+                  <img src="/courrier.png" />
+                  <span>courrier</span>
+                </div>
+              </div>
+
+              <div className="help">
+                <img src="/robot.png" />
+                <span>{t.help}</span>
+              </div>
+            </div>
+
+          </section>
+
+          {/* 语言切换 */}
+          <div className="language">
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value)}
             >
-              {t.button}
-              <img src="/search.png" style={{ width: 16 }} />
-            </button>
+              <option value="fr">Français</option>
+              <option value="en">English</option>
+              <option value="de">Deutsch</option>
+            </select>
           </div>
 
-          {/* 加载 */}
-          {loading && (
-            <div style={{ textAlign: "center", marginTop: 15 }}>
-              {t.loading}
-            </div>
-          )}
-
-          {/* 错误提示 */}
-          {error && (
-            <div style={{
-              color: "#d93025",
-              marginTop: 15,
-              textAlign: "center",
-              fontSize: 14
-            }}>
-              {error}
-            </div>
-          )}
-
-          {/* 类型区域 */}
-          <div style={{
-            marginTop: 25,
-            background: "#f0f2f5",
-            padding: 20,
-            borderRadius: 10,
-            textAlign: "center"
-          }}>
-            <div style={{
-              marginBottom: 12,
-              fontSize: 14,
-              color: "#555"
-            }}>
-              Several types of tracking are taken into account
-            </div>
-
-            <div style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 40,
-              alignItems: "center"
-            }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <img src="/colissimo.png" style={{ height: 20 }} />
-                colissimo
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <img src="/chronopost.png" style={{ height: 20 }} />
-                chronopost
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <img src="/courrier.png" style={{ height: 20 }} />
-                courrier
-              </div>
-            </div>
-
-            <div style={{
-              marginTop: 15,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 6
-            }}>
-              <img src="/robot.png" style={{ width: 20 }} />
-              {t.help}
-            </div>
-          </div>
-
-        </div>
-
-        {/* 语言切换 */}
-        <div style={{
-          marginTop: 40,
-          textAlign: "center"
-        }}>
-          <select
-            value={lang}
-            onChange={(e) => setLang(e.target.value)}
-            style={{
-              padding: 10,
-              borderRadius: 20,
-              border: "1px solid #ccc"
-            }}
-          >
-            <option value="fr">Français</option>
-            <option value="en">English</option>
-            <option value="de">Deutsch</option>
-          </select>
-        </div>
-
+        </main>
       </div>
-    </div>
+
+      <style jsx>{`
+        .page {
+          min-height: 100vh;
+          background: #f5f5f5;
+          font-family: Montserrat, Arial, Helvetica, sans-serif;
+          overflow-x: hidden;
+        }
+
+        .top-yellow {
+          height: 5px;
+          background: #ffcc00;
+        }
+
+        .header {
+          background: white;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 14px 42px;
+          box-sizing: border-box;
+          border-bottom: 1px solid #eee;
+        }
+
+        .logo-wrap {
+          display: flex;
+          align-items: center;
+          min-width: 160px;
+        }
+
+        .logo {
+          height: 42px;
+          object-fit: contain;
+        }
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          font-size: 15px;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+
+        .menu {
+          background: white;
+          display: flex;
+          align-items: center;
+          gap: 36px;
+          padding: 14px 42px;
+          box-sizing: border-box;
+          font-size: 16px;
+          font-weight: 500;
+          border-bottom: 1px solid #eee;
+        }
+
+        .menu-item {
+          white-space: nowrap;
+        }
+
+        .green-ad {
+          width: 100%;
+          background: #0f8f3a;
+        }
+
+        .green-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          height: 76px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 42px;
+          box-sizing: border-box;
+        }
+
+        .ad-left {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          min-width: 220px;
+        }
+
+        .ad-small {
+          color: white;
+          font-size: 18px;
+          line-height: 1.1;
+          font-weight: 900;
+          letter-spacing: 0.3px;
+        }
+
+        .ad-box {
+          margin-top: 5px;
+          background: white;
+          color: #0f8f3a;
+          font-size: 18px;
+          line-height: 1.1;
+          font-weight: 900;
+          padding: 4px 10px;
+          letter-spacing: 0.2px;
+        }
+
+        .ad-center {
+          flex: 1;
+          text-align: center;
+          color: white;
+          font-size: 22px;
+          font-weight: 900;
+          letter-spacing: 0.4px;
+          line-height: 1.15;
+        }
+
+        .ad-button {
+          background: white;
+          color: #0f8f3a;
+          border-radius: 24px;
+          padding: 9px 22px;
+          font-weight: 800;
+          font-size: 15px;
+          white-space: nowrap;
+          margin-left: 30px;
+        }
+
+        .main {
+          max-width: 900px;
+          margin: 72px auto 0;
+          padding: 0 20px 50px;
+          box-sizing: border-box;
+        }
+
+        .title {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 14px;
+          font-size: 36px;
+          line-height: 1.2;
+          font-weight: 700;
+          color: #333;
+          text-align: center;
+        }
+
+        .title-icon {
+          width: 38px;
+          flex-shrink: 0;
+        }
+
+        .search-card {
+          background: white;
+          margin-top: 32px;
+          padding: 30px;
+          border-radius: 12px;
+          border-top: 5px solid #ffcc00;
+          box-sizing: border-box;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .desc {
+          text-align: center;
+          margin-bottom: 22px;
+          font-size: 17px;
+          font-weight: 500;
+        }
+
+        .search-box {
+          display: flex;
+          border: 2px solid #d0d5dd;
+          border-radius: 12px;
+          overflow: hidden;
+          height: 58px;
+          box-sizing: border-box;
+          background: white;
+        }
+
+        .error-border {
+          border-color: #d93025;
+        }
+
+        .input {
+          flex: 1;
+          min-width: 0;
+          padding: 0 16px;
+          border: none;
+          outline: none;
+          font-size: 16px;
+          font-family: inherit;
+        }
+
+        .search-button {
+          width: 168px;
+          border: none;
+          background: #0b3d91;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 11px;
+          font-size: 15px;
+          font-weight: 700;
+          cursor: pointer;
+          font-family: inherit;
+        }
+
+        .search-button:disabled {
+          opacity: 0.75;
+          cursor: not-allowed;
+        }
+
+        .search-icon {
+          width: 18px;
+          height: 18px;
+          object-fit: contain;
+        }
+
+        .loading {
+          margin-top: 16px;
+          text-align: center;
+          font-weight: 600;
+          color: #333;
+        }
+
+        .error-text {
+          color: #d93025;
+          margin-top: 15px;
+          text-align: center;
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        .type-area {
+          margin-top: 28px;
+          background: #f0f2f5;
+          padding: 20px;
+          border-radius: 10px;
+          text-align: center;
+          box-sizing: border-box;
+        }
+
+        .type-title {
+          margin-bottom: 13px;
+          font-size: 14px;
+          color: #555;
+          font-weight: 600;
+        }
+
+        .type-list {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 38px;
+          flex-wrap: wrap;
+        }
+
+        .type-item {
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          font-size: 15px;
+          font-weight: 600;
+        }
+
+        .type-item img {
+          height: 20px;
+          object-fit: contain;
+        }
+
+        .help {
+          margin-top: 18px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 7px;
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        .help img {
+          width: 22px;
+        }
+
+        .language {
+          margin-top: 42px;
+          text-align: center;
+        }
+
+        .language select {
+          padding: 10px 18px;
+          border-radius: 24px;
+          border: 1px solid #ccc;
+          background: white;
+          font-size: 15px;
+          font-family: inherit;
+        }
+
+        @media (max-width: 768px) {
+          .header {
+            padding: 12px 14px;
+            align-items: flex-start;
+            gap: 10px;
+          }
+
+          .logo-wrap {
+            min-width: auto;
+          }
+
+          .logo {
+            height: 34px;
+          }
+
+          .header-actions {
+            gap: 12px;
+            font-size: 13px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+          }
+
+          .menu {
+            padding: 14px;
+            gap: 22px;
+            overflow-x: auto;
+            font-size: 15px;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          .menu::-webkit-scrollbar {
+            display: none;
+          }
+
+          .green-inner {
+            height: auto;
+            min-height: 80px;
+            padding: 12px 14px;
+            gap: 12px;
+          }
+
+          .ad-left {
+            min-width: 125px;
+          }
+
+          .ad-small {
+            font-size: 15px;
+          }
+
+          .ad-box {
+            font-size: 15px;
+            padding: 4px 7px;
+          }
+
+          .ad-center {
+            font-size: 16px;
+            line-height: 1.2;
+          }
+
+          .ad-button {
+            font-size: 13px;
+            padding: 8px 13px;
+            margin-left: 0;
+          }
+
+          .main {
+            margin-top: 46px;
+            padding: 0 14px 42px;
+          }
+
+          .title {
+            font-size: 30px;
+            justify-content: flex-start;
+            text-align: left;
+            gap: 12px;
+            line-height: 1.15;
+          }
+
+          .title-icon {
+            width: 32px;
+          }
+
+          .search-card {
+            margin-top: 28px;
+            padding: 24px 18px;
+            border-radius: 14px;
+          }
+
+          .desc {
+            font-size: 16px;
+            line-height: 1.35;
+            margin-bottom: 22px;
+          }
+
+          .search-box {
+            height: 56px;
+          }
+
+          .input {
+            font-size: 15px;
+            padding: 0 12px;
+          }
+
+          .search-button {
+            width: 150px;
+            font-size: 14px;
+            padding: 0 14px;
+          }
+
+          .type-area {
+            padding: 20px 14px;
+          }
+
+          .type-list {
+            gap: 20px;
+          }
+
+          .type-item {
+            font-size: 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .header {
+            display: block;
+          }
+
+          .logo-wrap {
+            margin-bottom: 12px;
+          }
+
+          .logo {
+            height: 30px;
+          }
+
+          .header-actions {
+            display: grid;
+            grid-template-columns: repeat(4, auto);
+            justify-content: start;
+            gap: 10px 16px;
+            font-size: 12px;
+          }
+
+          .menu {
+            padding: 12px 14px;
+            gap: 20px;
+            font-size: 15px;
+          }
+
+          .green-inner {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-areas:
+              "left button"
+              "center center";
+            align-items: center;
+          }
+
+          .ad-left {
+            grid-area: left;
+          }
+
+          .ad-center {
+            grid-area: center;
+            text-align: left;
+            font-size: 15px;
+            margin-top: 6px;
+          }
+
+          .ad-button {
+            grid-area: button;
+            font-size: 13px;
+            padding: 8px 13px;
+          }
+
+          .main {
+            margin-top: 42px;
+            padding: 0 14px 38px;
+          }
+
+          .title {
+            font-size: 29px;
+            line-height: 1.14;
+          }
+
+          .search-card {
+            padding: 22px 16px;
+          }
+
+          .search-box {
+            height: auto;
+            display: flex;
+          }
+
+          .input {
+            height: 54px;
+          }
+
+          .search-button {
+            width: 136px;
+            min-width: 136px;
+            height: 54px;
+            font-size: 13px;
+            gap: 8px;
+          }
+
+          .search-icon {
+            width: 17px;
+            height: 17px;
+          }
+
+          .type-area {
+            margin-top: 26px;
+            padding: 18px 12px;
+          }
+
+          .type-title {
+            font-size: 14px;
+            line-height: 1.35;
+          }
+
+          .type-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+          }
+
+          .type-item {
+            justify-content: center;
+            font-size: 13px;
+            gap: 5px;
+          }
+
+          .type-item img {
+            height: 18px;
+          }
+
+          .help {
+            margin-top: 18px;
+            font-size: 15px;
+          }
+
+          .language {
+            margin-top: 36px;
+          }
+        }
+
+        @media (max-width: 375px) {
+          .title {
+            font-size: 26px;
+          }
+
+          .search-button {
+            width: 120px;
+            min-width: 120px;
+          }
+
+          .search-button span {
+            display: none;
+          }
+
+          .search-icon {
+            width: 22px;
+            height: 22px;
+          }
+
+          .type-list {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+        }
+      `}</style>
+    </>
   );
 }
