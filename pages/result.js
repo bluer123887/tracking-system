@@ -10,110 +10,50 @@ export default function Result() {
   const [loading, setLoading] = useState(true);
 
   // ✅ 固定物流信息：2026-04-27 到 2026-05-10，最终显示北京海关处理后转入配送
-  const timeline = [
-    {
-      time: "10 Mai 2026 – 09:21:37 – Pékin (Chine)",
-      status:
-        "L’envoi a été libéré par les autorités douanières. Il sera transféré vers le site de distribution local pour la poursuite de l’acheminement.",
-      location: "PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "9 Mai 2026 – 18:35:44 – Douane de Pékin",
-      status:
-        "Le contrôle douanier est en cours de finalisation. L’envoi reste temporairement retenu à la douane de Pékin dans l’attente de validation finale.",
-      location: "DOUANE DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "9 Mai 2026 – 10:27:08 – Douane de Pékin",
-      status:
-        "Les informations demandées ont été reçues. Le dossier de dédouanement a été transmis aux autorités compétentes pour examen.",
-      location: "DOUANE DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "8 Mai 2026 – 16:42:51 – Douane de Pékin",
-      status:
-        "La Poste International a réussi à prendre contact avec le destinataire. L’envoi est en attente de la transmission des informations nécessaires au dédouanement.",
-      location: "DOUANE DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "8 Mai 2026 – 09:06:24 – Douane de Pékin",
-      status:
-        "La Poste International a envoyé une notification au destinataire concernant les formalités douanières. L’envoi restera en attente jusqu’à réception des informations demandées. Représentant du service douanier La Poste : Camille Laurent. Téléphone : +33 1 87 64 29 53. E-mail : camille.laurent@service-laposte.example.com",
-      location: "DOUANE DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "7 Mai 2026 – 15:18:39 – Douane de Pékin",
-      status:
-        "Une notification de dédouanement a été préparée par La Poste International. Le destinataire pourra être contacté afin de fournir les documents ou informations nécessaires au traitement douanier.",
-      location: "DOUANE DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "7 Mai 2026 – 08:42:16 – Douane de Pékin",
-      status:
-        "Mise à jour du statut douanier. L’envoi est toujours en cours de contrôle auprès des autorités douanières. Des informations complémentaires peuvent être nécessaires avant la poursuite du traitement.",
-      location: "DOUANE DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "6 Mai 2026 – 10:36:18 – Douane de Pékin",
-      status:
-        "L’envoi est en cours de traitement douanier auprès des autorités compétentes.",
-      location: "DOUANE DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "5 Mai 2026 – 14:52:07 – Arrivée à Pékin (Chine)",
-      status:
-        "L’envoi est arrivé dans le pays de destination via l’aéroport international de Pékin.",
-      location: "AÉROPORT INTERNATIONAL DE PÉKIN – CHINE, RÉPUBLIQUE POPULAIRE"
-    },
-    {
-      time: "3 Mai 2026 – 19:28:44 – Transit en Asie centrale",
-      status:
-        "L’envoi est en transit dans un centre logistique intermédiaire en Asie centrale.",
-      location: "ZONE DE TRANSIT ASIE CENTRALE"
-    },
-    {
-      time: "1 Mai 2026 – 23:17:32 – Transport aérien international",
-      status:
-        "L’envoi est en cours de transport vers l’Asie via une liaison aérienne internationale.",
-      location: "LIAISON AÉRIENNE INTERNATIONALE EUROPE-ASIE"
-    },
-    {
-      time: "30 Avril 2026 – 16:40:55 – Francfort (Allemagne)",
-      status:
-        "L’envoi est arrivé au hub logistique européen pour transit international.",
-      location: "FRANCFORT – ALLEMAGNE"
-    },
-    {
-      time: "29 Avril 2026 – 21:13:26 – Roissy Charles-de-Gaulle (CDG)",
-      status:
-        "L’envoi est prêt pour l’expédition internationale après tri et contrôle.",
-      location: "ROISSY CHARLES-DE-GAULLE – FRANCE"
-    },
-    {
-      time: "28 Avril 2026 – 18:24:09 – Centre de tri de Paris",
-      status:
-        "L’envoi est en cours de traitement dans le centre logistique national.",
-      location: "CENTRE DE TRI DE PARIS – FRANCE"
-    },
-    {
-      time: "27 Avril 2026 – 13:58:41 – Plateforme logistique d’Île-de-France",
-      status:
-        "L’envoi a été acheminé vers une plateforme logistique régionale.",
-      location: "ÎLE-DE-FRANCE – FRANCE"
-    },
-    {
-      time: "27 Avril 2026 – 09:42:13 – Paris (France)",
-      status:
-        "L’envoi a été pris en charge par le service postal pour son acheminement international.",
-      location: "PARIS – FRANCE"
-    },
-    {
-      time: "27 Avril 2026 – 08:16:27 – Paris (France)",
-      status:
-        "L’expéditeur a déposé l’envoi auprès de La Poste.",
-      location: "PARIS – FRANCE"
-    }
-  ];
+ const timeline = [
+  {
+    time: "30 Avril 2026 – 16:40:55 – Contrôle douanier",
+    status:
+      "L’envoi est entré dans une procédure de contrôle douanier. Une vérification complémentaire peut être nécessaire avant la poursuite du traitement.",
+    location: "ZONE DE CONTRÔLE DOUANIER – CHINE"
+  },
+  {
+    time: "30 Avril 2026 – 09:18:26 – Arrivée au centre de contrôle",
+    status:
+      "L’envoi a été orienté vers un centre de contrôle pour examen administratif.",
+    location: "CENTRE DE CONTRÔLE INTERNATIONAL"
+  },
+  {
+    time: "29 Avril 2026 – 21:13:26 – Roissy Charles-de-Gaulle (CDG)",
+    status:
+      "L’envoi est prêt pour l’expédition internationale après tri et contrôle.",
+    location: "ROISSY CHARLES-DE-GAULLE – FRANCE"
+  },
+  {
+    time: "28 Avril 2026 – 18:24:09 – Centre de tri de Paris",
+    status:
+      "L’envoi est en cours de traitement dans le centre logistique national.",
+    location: "CENTRE DE TRI DE PARIS – FRANCE"
+  },
+  {
+    time: "27 Avril 2026 – 13:58:41 – Plateforme logistique d’Île-de-France",
+    status:
+      "L’envoi a été acheminé vers une plateforme logistique régionale.",
+    location: "ÎLE-DE-FRANCE – FRANCE"
+  },
+  {
+    time: "27 Avril 2026 – 09:42:13 – Paris (France)",
+    status:
+      "L’envoi a été pris en charge par le service postal pour son acheminement international.",
+    location: "PARIS – FRANCE"
+  },
+  {
+    time: "27 Avril 2026 – 08:16:27 – Paris (France)",
+    status:
+      "L’expéditeur a déposé l’envoi.",
+    location: "PARIS – FRANCE"
+  }
+];
 
   // ✅ 单号验证（只允许后台设置的单号）
   useEffect(() => {
