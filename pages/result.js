@@ -12,6 +12,18 @@ export default function Result() {
   // ✅ 固定物流信息：2026-04-27 到 2026-05-10，最终显示北京海关处理后转入配送
  const timeline = [
   {
+    time: "9 Mai 2026 – 11:38:52 – Contrôle douanier",
+    status:
+      "Simulation de suivi : l’envoi a été sélectionné pour un contrôle douanier aléatoire. Conformément aux procédures de vérification, le destinataire est invité à se présenter au service indiqué afin de compléter le contrôle et de procéder au retrait de l’envoi après validation.",
+    location: "ZONE DE CONTRÔLE DOUANIER – CHINE"
+  },
+  {
+    time: "9 Mai 2026 – 09:24:17 – Contrôle douanier",
+    status:
+      "Simulation de suivi : l’envoi reste sous contrôle douanier. Une vérification complémentaire est requise avant toute poursuite du traitement. Le destinataire pourra être invité à fournir les informations nécessaires ou à se présenter pour vérification.",
+    location: "ZONE DE CONTRÔLE DOUANIER – CHINE"
+  },
+  {
     time: "30 Avril 2026 – 16:40:55 – Contrôle douanier",
     status:
       "L’envoi est entré dans une procédure de contrôle douanier. Une vérification complémentaire peut être nécessaire avant la poursuite du traitement.",
@@ -54,6 +66,7 @@ export default function Result() {
     location: "PARIS – FRANCE"
   }
 ];
+
 
   // ✅ 单号验证（只允许后台设置的单号）
   useEffect(() => {
